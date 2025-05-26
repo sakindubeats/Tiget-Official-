@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TIGER OFFICIAL</title>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    function filterContent(type) {
+      const all = document.querySelectorAll('.card');
+      all.forEach(el => {
+        el.classList.remove('hidden');
+        if (type !== 'all' && !el.classList.contains(type)) {
+          el.classList.add('hidden');
+        }
+      });
+    }
+
+    function handleFileSelect(event) {
+      const container = document.getElementById("uploadPreview");
+      container.innerHTML = '';
+      const files = event.target.files;
+      for (let file of files) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const media = document.createElement(file.type.startsWith("video") ? "video" : "img");
+          media.src = e.target.result;
+          if (file.type.startsWith("video")) {
+            media.controls = true;
+            media.width = 200;
+          } else {
+            media.style.width = "200px";
+          }
+          media.style.borderRadius = "8px";
+          media.style.margin = "10px";
+          container.appendChild(media);
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <h1>TIGER OFFICIAL</h1>
+    <nav>
+      <button onclick="filterContent('all')">All</button>
+      <button onclick="filterContent('video')">Videos</button>
+      <button onclick="filterContent('image')">Images</button>
+      <label style="margin-left: 10px; cursor: pointer;">
+        <input type="file" id="uploadInput" accept="image/*,video/*" multiple style="display:none" onchange="handleFileSelect(event)">
+        <span style="padding: 10px 20px; background: #ffcc00; border-radius: 5px;">Upload</span>
+      </label>
+    </nav>
+  </header>
+  <div class="container">
+    <div class="card video">
+      <a href="video1.html"><img src="https://via.placeholder.com/200x120.png?text=Video+1" alt="Video 1"></a>
+      <p>Sample Video 1</p>
+    </div>
+    <div class="card image">
+      <a href="image1.html"><img src="https://via.placeholder.com/200x120.png?text=Image+1" alt="Image 1"></a>
+      <p>Sample Image 1</p>
+    </div>
+    <div class="card video">
+      <a href="video2.html"><img src="https://via.placeholder.com/200x120.png?text=Video+2" alt="Video 2"></a>
+      <p>Sample Video 2</p>
+    </div>
+    <div class="card image">
+      <a href="image2.html"><img src="https://via.placeholder.com/200x120.png?text=Image+2" alt="Image 2"></a>
+      <p>Sample Image 2</p>
+    </div>
+  </div>
+  <h2 style="text-align:center; margin-top:20px;">Upload Preview</h2>
+  <div id="uploadPreview" class="container"></div>
+</body>
+</html>
